@@ -15,7 +15,7 @@ To get started, you need the following stuff:
 You can get vagrant from the [vagrant web site](https://www.vagrantup.com/).
 
 ##Vagrant image
-The puppet classes and manifests in this repository are  tested on a CentOS 6.5 box with Puppet.  To be sure, you don't run into box differences; we have put up [our box on the vagrantcloud](https://vagrantcloud.com/hajee/boxes/centos-6.5-x86_64). It is not a very special box. It's just a box with Puppet V3.6.2 installed. So if you want to try it on another box, you can, just be sure you have Puppet installed.
+The puppet classes and manifests in this repository are  tested on a CentOS 5.10 and a Centos 6.5 box with Puppet.  To be sure, you don't run into box differences; we have put up [our box on the vagrantcloud](https://vagrantcloud.com/hajee/boxes/centos-6.5-x86_64). It is not a very special box. It's just a box with Puppet V3.6.2 installed. So if you want to try it on another box, you can, just be sure you have Puppet installed.
 
 ##The Oracle 11.2.0.4 installation files
  The Oracle zip files are not part of this repository. You **MUST** provide them yourself. You can find them at one of the Oracle download web sites. This Vagrant box uses the following zip files:
@@ -108,7 +108,6 @@ Before you can start, your directory should look like this:
 |       |-- ssh
 |       |   |-- ...
 |       |   |-- ...
-|       |       `-- init.pp
 |       `-- stdlib
 |       |   |-- ...
 |       |   |-- ...
