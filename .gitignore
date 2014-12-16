@@ -20,3 +20,4 @@ puppet/modules/stdlib
 puppet/modules/module_data
 *.vdi
 .vagrant
+puppet/modules/concat

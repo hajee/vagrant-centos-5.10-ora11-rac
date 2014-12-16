@@ -1,12 +1,12 @@
-
-#Oracle 11 RAC cluster on a CentOS 6.5 system
+#Oracle 11 RAC cluster on a CentOS 5.10 system
 
 This repository contains a proof of concept for installing an Oracle RAC cluster with Puppet.  We use Vagrant to show you how to do it. Based on the information in this repo, you should be able to use the [`ora_rac`](https://github.com/hajee/ora_rac) puppet module to build your own RAC environment.
+
 
 #Get started
 To get started, you need the following stuff:
 - Vagrant installed and running
-- A Vagrant image for CentOS 6.5 with Puppet 3.4, 3.5 or 3.6 installed. Higher versions don't work.
+- A Vagrant image for CentOS 5.10 with Puppet 3.4, 3.5 or 3.6 installed. Higher versions don't work.
 - The software installation files for Oracle 11.2.0.4
 - The packages for oracleasm
 - The Puppet modules
@@ -15,7 +15,8 @@ To get started, you need the following stuff:
 You can get vagrant from the [vagrant web site](https://www.vagrantup.com/).
 
 ##Vagrant image
-The puppet classes and manifests in this repository are  tested on a CentOS 5.10 and a Centos 6.5 box with Puppet.  To be sure, you don't run into box differences; we have put up [our box on the vagrantcloud](https://vagrantcloud.com/hajee/boxes/centos-6.5-x86_64). It is not a very special box. It's just a box with Puppet V3.6.2 installed. So if you want to try it on another box, you can, just be sure you have Puppet installed.
+The puppet classes and manifests in this repository are  tested on a CentOS 5.10 and a Centos 6.5 box with Puppet.  To be sure, you don't run into box differences; we have put up [our box on the vagrantcloud](https://vagrantcloud.com/hajee/boxes/centos-6.5-x86_64). It is not a very special box. It's just a box with Puppet V3.6.1 installed. So if you want to try it on another box, you can, just be sure you have Puppet installed.
+
 
 ##The Oracle 11.2.0.4 installation files
  The Oracle zip files are not part of this repository. You **MUST** provide them yourself. You can find them at one of the Oracle download web sites. This Vagrant box uses the following zip files:
@@ -26,16 +27,18 @@ The puppet classes and manifests in this repository are  tested on a CentOS 5.10
 To get started, you need to create a folder software and put those zip's and there.
 
 ##The packages for oracleasm
+Like the Oracle installer zip files, you need to download these files yourself. You can find them at [the Oracle download page](http://www.oracle.com/technetwork/server-storage/linux/downloads/rhel5-084877.html)
 
-The installed add's the public Oracle repo to your system. This means it can load *most*  of the required packges. You still need to download the `oracleasmlib-2.0.4-1.el6.x86_64.rpm` file.
-
-Like the Oracle installer zip files, you need to download these files yourself. You can find them at [Oracle ASMLib Downloads for Oracle Linux 6](http://www.oracle.com/technetwork/server-storage/linux/asmlib/ol6-1709075.html)
 
 For ASM, you need to download:
+- [oracleasm-2.6.18-371.el5-2.0.5-1.el5.x86_64.rpm](http://oss.oracle.com/projects/oracleasm/dist/files/RPMS/rhel5/amd64/2.0.5/2.6.18-371.el5/oracleasm-2.6.18-371.el5-2.0.5-1.el5.x86_64.rpm)
+- [oracleasm-support-2.1.8-1.el5.x86_64.rpm](http://oss.oracle.com/projects/oracleasm-support/dist/files/RPMS/rhel5/amd64/2.1.8/oracleasm-support-2.1.8-1.el5.x86_64.rpm)
+- [oracleasmlib-2.0.4-1.el5.x86_64.rpm](http://download.oracle.com/otn_software/asmlib/oracleasmlib-2.0.4-1.el5.x86_64.rpm)
 
-- [oracleasmlib-2.0.4-1.el6.x86_64.rpm](http://download.oracle.com/otn_software/asmlib/oracleasmlib-2.0.4-1.el6.x86_64.rpm)
+You need to put those rpm's into the software folder too.
 
-You need to put this rpm into the software folder too.
+**WATCH IT** If you want to run it on a different kernel, you need other RPM's
+
 
 ##The Puppet modules
 
@@ -49,76 +52,6 @@ This will download the latest released version of the required modules and put t
 
 
 #Run the virtual machines
-
-
-Before you can start, your directory should look like this:
-
-```
-|-- puppet
-|   |-- hiera.yaml
-|   |-- hieradata
-|   |   |-- hosts
-|   |   `-- instances
-|   |       `-- example.yaml
-|   |-- manifests
-|   |   `-- site.pp
-|   `-- modules
-|       |-- augeasproviders
-|       |   |-- ...
-|       |   |-- ...
-|       |-- boolean
-|       |   |-- ...
-|       |   |-- ...
-|       |-- easy_type
-|       |   |-- ...
-|       |   |-- ...
-|       |-- filemapper
-|       |   |-- ...
-|       |   |-- ...
-|       |-- firewall
-|       |   |-- ...
-|       |   |-- ...
-|       |-- fw
-|       |   |-- ...
-|       |   |-- ...
-|       |-- hacks
-|       |   |-- ...
-|       |   |-- ...
-|       |-- limits
-|       |   |-- ...
-|       |   |-- ...
-|       |-- netstdlib
-|       |   |-- ...
-|       |   |-- ...
-|       |-- network
-|       |   |-- ...
-|       |   |-- ...
-|       |-- ora_rac
-|       |   |-- ...
-|       |   |-- ...
-|       |-- oracle
-|       |   |-- ...
-|       |   |-- ...
-|       |-- oradb
-|       |   |-- ...
-|       |   |-- ...
-|       |-- partition
-|       |   |-- ...
-|       |   |-- ...
-|       |-- ssh
-|       |   |-- ...
-|       |   |-- ...
-|       `-- stdlib
-|       |   |-- ...
-|       |   |-- ...
-|
-|-- software
-|   |-- oracleasmlib-2.0.4-1.el6.x86_64.rpm
-|   |-- p13390677_112040_Linux-x86-64_1of7.zip
-|   |-- p13390677_112040_Linux-x86-64_2of7.zip
-|   `-- p13390677_112040_Linux-x86-64_3of7.zip
-```
-
 
 The Oracle RAC installation includes two Vagrant virtual machines and shared SCSI storage. To get this all running, you need to do stuff in a specific order. To make it easy for you, we have provided rake tasks to do all the work for you. To get the whole shebang up and running, use:
 
@@ -204,5 +137,6 @@ Use `bundle show [gemname]` to see where a bundled gem is installed.
 ```
 
 To be sure all commands run within the specified set of gems, you need to prepend the commands with ` bundle exec`.
+
 
 
